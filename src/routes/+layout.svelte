@@ -1,49 +1,52 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
 	import 'virtual:uno.css';
 	import { ScrollState, ElementSize } from 'runed';
 	import { fade } from 'svelte/transition';
+	import logo from '$lib/assets/images/logo.png';
 
 	let { children } = $props();
-	let landingpic = $state<HTMLDivElement>();
+	let landing_el = $state<HTMLDivElement>();
 	const scroll = new ScrollState({
 		element: () => document,
 	});
-	const size = new ElementSize(() => landingpic);
+	const size = new ElementSize(() => landing_el);
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<title>Papa Chocolate</title>
 </svelte:head>
 
 <nav class="transition-all fixed w-full top-0 p-2">
 	<div
 		class={[
-			'mx-auto container backdrop-blur-lg p-4 px-8 rounded-full border border-neutral/25 flex items-center gap-4 transition duration-750',
+			'mx-auto container backdrop-blur-lg p-4 px-8 rounded-full border border-neutral/5 flex items-center gap-4 transition duration-750',
 			(scroll.y || 0) > size.height ? 'bg-white/75' : 'bg-white',
 		]}
 	>
 		<a href="/" aria-label="Home">
-			<img src="/logo.png" alt="logo" class="h-14" />
+			<img src={logo} alt="logo" class="h-14" />
 		</a>
 
 		<span class="grow"></span>
 
-		<a href="/about" class="font-serif text-lg transition duration-150 hover:text-[#f92634]">
-			About
-		</a>
-		<span>•</span>
-		<a href="/contact" class="font-serif text-lg transition duration-150 hover:text-[#f92634]">
-			Contact
-		</a>
-		<span>•</span>
-		<a href="/menu" class="font-serif text-lg transition duration-150 hover:text-[#f92634]">Menu</a>
+		{#each ['about', 'contact', 'menu'] as href (href)}
+			<a
+				href="/{href}"
+				class="font-serif text-xl transition duration-150 hover:text-brand-red capitalize"
+			>
+				{href}
+			</a>
+
+			{#if href !== 'menu'}
+				<span>•</span>
+			{/if}
+		{/each}
 
 		<span class="grow"></span>
 
 		<a
 			href="https://order.online/business/papa-chocolate-11682065"
-			class="border border-[#f92634]/50 text-[#f92634] hover:bg-[#f92634]/10 transition h-10 px-4 rounded-full flex items-center"
+			class="border border-brand-red/50 text-brand-red hover:bg-brand-red/10 transition h-10 px-4 rounded-full flex items-center"
 			transition:fade={{ duration: 150 }}
 		>
 			Catering
@@ -51,7 +54,7 @@
 
 		<a
 			href="https://order.online/business/papa-chocolate-11682065"
-			class="bg-[#f92634] text-white h-10 px-4 rounded-full flex items-center"
+			class="bg-brand-red text-white h-10 px-4 rounded-full flex items-center"
 			transition:fade={{ duration: 150 }}
 		>
 			Order Online
@@ -60,16 +63,8 @@
 </nav>
 
 <div
-	bind:this={landingpic}
+	bind:this={landing_el}
 	class="h-screen bg-cover bg-[url(/landing-picture.jpg)] grid place-items-center"
 ></div>
 
 {@render children()}
-
-{#each { length: 50 }, idx (idx)}
-	<p class="h">
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, dolores voluptate. Quod
-		asperiores dolorum, provident non aliquam dolor, unde quia perspiciatis saepe ad, a dignissimos
-		veniam quae pariatur sapiente animi?
-	</p>
-{/each}

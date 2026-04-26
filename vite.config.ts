@@ -7,17 +7,18 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		unocss({
+			theme: { colors: { brand: { red: '#f92634', orange: '#ff5d20' } } },
 			presets: [
 				presetWind4({ preflights: { reset: true } }),
 				presetWebFonts({
 					fonts: {
 						sans: 'Montserrat',
-						serif: 'Rufina'
-					}
+						serif: 'Rufina',
+					},
 				}),
-				presetIcons()
+				presetIcons(),
 			],
-			transformers: [transformerVariantGroup()]
-		})
-	]
+			transformers: [transformerVariantGroup()],
+		}),
+	],
 });
